@@ -25,12 +25,13 @@ class Page(models.Model):
 class PageRevision(models.Model):
 	page = models.ForeignKey("Page", db_index = True)
 	num = models.IntegerField(blank = True)
-	author = models.ForeignKey(User, blank = True)
+	author = models.ForeignKey(User, blank = True, related_name = "pagerevision_set_created")
 	create_date = models.DateTimeField(blank = True)
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)
 	reverted = models.BooleanField(blank = True)
 	revert_reason = models.TextField(max_length = 50, blank = True)
+	revert_user = models.ForeignKey(User, null = True, blank = True, related_name = "pagerevision_set_reverted")
 	
 	def get_absolute_url(self):
 		return "/wiki/view/" + self.page.slug + "/revision/" + str(self.num) + "/"
