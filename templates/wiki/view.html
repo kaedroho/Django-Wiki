@@ -5,7 +5,7 @@
 
 {% block content %}
 	<div id="content">
-		<h1>{{ page }} (Revision {{ page.current_revision.num }})</h1>
-		{{ page.current_revision.content|markdown:"safe" }}
+		<h1>{{ page }}</h1>
+		{{ revision.content|markdown:"safe" }}
 	</div>
 {% endblock %}
