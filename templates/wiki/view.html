@@ -1,1 +1,11 @@
-Test
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block content %}
+	<div id="content">
+		<h1>{{ page }} (Revision {{ page.current_revision.num }})</h1>
+		{{ page.current_revision.content|markdown:"safe" }}
+	</div>
+{% endblock %}
