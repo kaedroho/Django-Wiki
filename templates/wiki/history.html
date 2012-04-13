@@ -5,7 +5,7 @@
 
 {% block content %}
 	<div id="content">
-		<h1>{{ page }} History</h1>
+		<h2 id="title">{{ page }} History</h2>
 		<ul>
 		{% for revision in revisions.object_list %}
 			<li><a href="{{ revision.get_absolute_url }}">{{ revision }}</a></li>

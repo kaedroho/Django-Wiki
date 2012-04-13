@@ -4,8 +4,14 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block content %}
+	<div id="right_sidebar">
+		<ul>
+			<li><a href="/wiki/edit/{{ page.slug }}/">Edit Page</a></li>
+			<li><a href="/wiki/history/{{ page.slug }}/">View History</a></li>
+		</ul>
+	</div>
 	<div id="content">
-		<h1>{{ page }}</h1>
+		<h2 id="title">{{ page }}</h2>
 		{{ revision.content|markdown:"safe" }}
 	</div>
 {% endblock %}
