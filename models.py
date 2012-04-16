@@ -17,7 +17,7 @@ class Page(models.Model):
 		self.save()
 		
 	def get_absolute_url(self):
-		return "/wiki/view/" + self.slug + "/"
+		return "/wiki/" + self.slug + "/"
 		
 	def __unicode__(self):
 		return self.title
@@ -34,7 +34,7 @@ class PageRevision(models.Model):
 	revert_user = models.ForeignKey(User, null = True, blank = True, related_name = "pagerevision_set_reverted")
 	
 	def get_absolute_url(self):
-		return "/wiki/view/" + self.page.slug + "/revision/" + str(self.num) + "/"
+		return "/wiki/" + self.page.slug + "/revision/" + str(self.num) + "/"
 		
 	def __unicode__(self):
 		return self.page.title + " (" + str(self.create_date) + ")"
@@ -44,6 +44,7 @@ class PageUser(models.Model):
 	page = models.ForeignKey(Page, related_name = "user_set", db_index = True)
 	first_view = models.DateTimeField(blank = True)
 	last_view = models.DateTimeField(blank = True)
+	last_view_revision = models.IntegerField(blank = True)
 	views = models.IntegerField(blank = True)
 	
 	def add_view(self):
