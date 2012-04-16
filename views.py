@@ -1,4 +1,5 @@
 import datetime
+import difflib
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -53,4 +54,50 @@ def history(request, slug = ""):
 		revisions = paginator.page(paginator.num_pages)
 		
 	return render_to_response("wiki/history.html", {"page": page, "revisions": revisions}, RequestContext(request))
+	
+def diff(request, slug = "", rev_from_str = "0", rev_to_str = "0"):
+	page = get_object_or_404(models.Page, slug = slug)
+	
+	#Check get parameter
+	if "since" in request.GET:
+		rev_from_str = request.GET["since"]
+		
+	#Get revision to
+	try:
+		rev_to_num = int(rev_to_str)
+	except ValueError:
+		raise Http404
+	if rev_to_num == 0:
+		revision_to = page.current_revision
+	else:
+		revision_to = get_object_or_404(models.PageRevision, page = page, num = rev_to_num)
+		
+	#Get revision from
+	try:
+		rev_from_num = int(rev_from_str)
+	except ValueError:
+		raise Http404
+	if rev_from_num == 0:
+		if revision_to.previous_revision:
+			revision_from = revision_to.previous_revision
+		else:
+			revision_from = page.current_revision
+	else:
+		revision_from = get_object_or_404(models.PageRevision, page = page, num = rev_from_num)
+		
+	#Check if the from number is higher than the to number
+	if revision_from.num > revision_to.num:
+		raise Http404
+		
+	from_lines = revision_from.content.splitlines(True)
+	to_lines = revision_to.content.splitlines(True)
+	
+	d = difflib.Differ()
+	diff = d.compare(from_lines, to_lines)
+	
+	diff_html = ""
+	for line in diff:
+		diff_html = diff_html + line + "\n"
+		
+	return render_to_response("wiki/diff.html", {"page": page, "revision_from": revision_from, "revision_to": revision_to, "diff": diff_html}, RequestContext(request))
 	

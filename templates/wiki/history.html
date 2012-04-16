@@ -6,10 +6,30 @@
 {% block content %}
 	<div id="content">
 		<h2>{{ page }} History</h2>
-		<ul>
+		<table>
+			<tr>
+				<th>#</th>
+				<th>Date</th>
+				<th>Author</th>
+				<th>Action</th>
+			</tr>
 		{% for revision in revisions.object_list %}
-			<li><a href="{{ revision.get_absolute_url }}">{{ revision }}</a></li>
+			<tr>
+				<td><a href="{{ revision.get_absolute_url }}">{{ revision.num }}</a></td>
+				<td>{{ revision.create_date }}</td>
+				<td><a href="/users/{{ revision.author}}/">{{ revision.author.userprofile.display_name }}</a></td>
+				<td>
+					<a href="{{ revision.get_absolute_url }}">[View]</a>
+					<a href="{{ page.get_absolute_url }}diff/?since={{ revision.num }}">[Diff]</a>
+				{% if revision.previous_revision %}
+					<a href="{{ revision.get_absolute_url }}changes/">[Changes]</a>
+				{% endif %}
+				{% if request.user.is_authenticated %}
+					<a href="{{ page.get_absolute_url }}revert/?to={{ revision.num }}">[Revert]</a>
+				{% endif %}
+				</td>
+			</tr>
 		{% endfor %}
-		</ul>
+		</table>
 	</div>
 {% endblock %}
