@@ -12,6 +12,9 @@
 	{% if page_changed %}
 		<p>This page has changed since you last viewed it</p>
 	{% endif %}
+	{% if first_view %}
+		<p>This is the first time you have visited this page</p>
+	{% endif %}
 	</div>
 	<div id="content">
 		<h2>{{ page }}</h2>
