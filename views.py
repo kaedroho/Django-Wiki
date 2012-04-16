@@ -33,7 +33,7 @@ def view(request, slug = "", revision_str = "0"):
 		page_user = None
 		
 	page_changed = False
-	if last_view_revision != page.current_revision.num:
+	if last_view_revision != page.current_revision.num and not page_user_created:
 		page_changed = True
 	return render_to_response("wiki/view.html", {"page": page, "revision": revision, "page_user": page_user, "page_changed": page_changed}, RequestContext(request))
 	
