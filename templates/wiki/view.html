@@ -5,6 +5,8 @@
 
 {% block content %}
 	<div id="sidebar">
+		<p>Created: {{ page.first_revision.create_date }}<br/>
+		Updated: {{ revision.create_date }}</p>
 		<ul>
 			<li><a href="/wiki/{{ page.slug }}/edit/">Edit Page</a></li>
 			<li><a href="/wiki/{{ page.slug }}/history/">View History</a></li>
