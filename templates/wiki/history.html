@@ -25,7 +25,9 @@
 					<a href="{{ revision.get_absolute_url }}changes/">[Changes]</a>
 				{% endif %}
 				{% if request.user.is_authenticated %}
+				{% if revision.num != page.current_revision.num %}
 					<a href="{{ page.get_absolute_url }}revert/?to={{ revision.num }}">[Revert]</a>
+				{% endif %}
 				{% endif %}
 				</td>
 			</tr>
