@@ -50,6 +50,8 @@ class PageUser(models.Model):
 	def add_view(self):
 		self.views += 1
 		self.last_view = datetime.datetime.now()
+		if self.last_view_revision < self.page.current_revision.num:
+			self.last_view_revision = self.page.current_revision.num
 		self.save()
 		
 	def __unicode__(self):

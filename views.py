@@ -24,13 +24,18 @@ def view(request, slug = "", revision_str = "0"):
 	page = get_object_or_404(models.Page, slug = slug)
 	page.add_view()
 	
+	last_view_revision = 0
 	if request.user.is_authenticated():
-		page_user, page_user_created = models.PageUser.objects.get_or_create(user = request.user, page = page, defaults = {"first_view": datetime.datetime.now(), "last_view": datetime.datetime.now(), "views": 0})
+		page_user, page_user_created = models.PageUser.objects.get_or_create(user = request.user, page = page, defaults = {"first_view": datetime.datetime.now(), "last_view": datetime.datetime.now(), "views": 0, "last_view_revision": revision.num})
+		last_view_revision = page_user.last_view_revision
 		page_user.add_view()
 	else:
 		page_user = None
 		
-	return render_to_response("wiki/view.html", {"page": page, "revision": revision, "page_user": page_user}, RequestContext(request))
+	page_changed = False
+	if last_view_revision != page.current_revision.num:
+		page_changed = True
+	return render_to_response("wiki/view.html", {"page": page, "revision": revision, "page_user": page_user, "page_changed": page_changed}, RequestContext(request))
 	
 def history(request, slug = ""):
 	page = get_object_or_404(models.Page, slug = slug)

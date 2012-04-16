@@ -9,6 +9,9 @@
 			<li><a href="/wiki/{{ page.slug }}/edit/">Edit Page</a></li>
 			<li><a href="/wiki/{{ page.slug }}/history/">View History</a></li>
 		</ul>
+	{% if page_changed %}
+		<p>This page has changed since you last viewed it</p>
+	{% endif %}
 	</div>
 	<div id="content">
 		<h2>{{ page }}</h2>
