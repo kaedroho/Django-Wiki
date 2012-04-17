@@ -9,8 +9,8 @@ class Page(models.Model):
 	title = models.CharField(max_length = 100)
 	first_revision = models.ForeignKey("PageRevision", related_name = "+", null = True, blank = True)
 	current_revision = models.ForeignKey("PageRevision", related_name = "+", null = True, blank = True)
-	views = models.IntegerField(blank = True)
-	next_revision_num = models.IntegerField(blank = True)
+	views = models.IntegerField(blank = True, default = 0)
+	next_revision_num = models.IntegerField(blank = True, default = 1)
 	
 	def add_view(self):
 		self.views += 1
@@ -26,7 +26,7 @@ class PageRevision(models.Model):
 	page = models.ForeignKey("Page", db_index = True)
 	num = models.IntegerField(blank = True)
 	author = models.ForeignKey(User, blank = True, related_name = "pagerevision_set_created")
-	create_date = models.DateTimeField(blank = True)
+	create_date = models.DateTimeField(blank = True, default = datetime.datetime.now)
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)
 	reverted = models.BooleanField(blank = True)
@@ -42,10 +42,10 @@ class PageRevision(models.Model):
 class PageUser(models.Model):
 	user = models.ForeignKey(User, related_name = "page_set", db_index = True)
 	page = models.ForeignKey(Page, related_name = "user_set", db_index = True)
-	first_view = models.DateTimeField(blank = True)
-	last_view = models.DateTimeField(blank = True)
-	last_view_revision = models.IntegerField(blank = True)
-	views = models.IntegerField(blank = True)
+	first_view = models.DateTimeField(blank = True, default = datetime.datetime.now)
+	last_view = models.DateTimeField(blank = True, default = datetime.datetime.now)
+	last_view_revision = models.IntegerField(blank = True, default = 1)
+	views = models.IntegerField(blank = True, default = 0)
 	
 	def add_view(self):
 		self.views += 1

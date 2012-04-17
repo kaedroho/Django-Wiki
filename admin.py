@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib import admin
 from django.template.defaultfilters import slugify
 
@@ -10,7 +8,6 @@ class PageAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if not obj.slug:
 			obj.slug = slugify(obj.title)
-			obj.views = 0
 			obj.next_revision_num = 2
 			obj.save()
 			
@@ -32,7 +29,6 @@ class PageRevisionAdmin(admin.ModelAdmin):
 		if not obj.id:
 			obj.num = obj.page.next_revision_num
 			obj.author = request.user
-			obj.create_date = datetime.datetime.now()
 			obj.previous_revision = obj.page.current_revision
 			obj.save()
 			
