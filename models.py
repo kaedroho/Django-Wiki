@@ -25,7 +25,7 @@ class Page(models.Model):
 class PageRevision(models.Model):
 	page = models.ForeignKey("Page", db_index = True)
 	num = models.IntegerField(blank = True)
-	author = models.ForeignKey(User, blank = True, related_name = "pagerevision_set_created")
+	author = models.ForeignKey(User, related_name = "pagerevision_set_created")
 	create_date = models.DateTimeField(blank = True, default = datetime.datetime.now)
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)

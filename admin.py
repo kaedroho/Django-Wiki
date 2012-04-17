@@ -28,7 +28,6 @@ class PageRevisionAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if not obj.id:
 			obj.num = obj.page.next_revision_num
-			obj.author = request.user
 			obj.previous_revision = obj.page.current_revision
 			obj.save()
 			
