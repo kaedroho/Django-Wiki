@@ -37,7 +37,7 @@ class PageRevision(models.Model):
 		return "/wiki/" + self.page.slug + "/revision/" + str(self.num) + "/"
 		
 	def __unicode__(self):
-		return self.page.title + " (" + str(self.create_date) + ")"
+		return self.page.title + " (Revision " + str(self.num) + ")"
 		
 class PageUser(models.Model):
 	user = models.ForeignKey(User, related_name = "page_set", db_index = True)
