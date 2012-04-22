@@ -6,6 +6,7 @@ from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import Http404
 from django.template.defaultfilters import slugify
+from django.contrib.auth.decorators import login_required
 
 import models
 import forms
@@ -40,6 +41,7 @@ def view(request, slug = "", revision_str = "0"):
 		page_changed = True
 	return render_to_response("wiki/view.html", {"page": page, "revision": revision, "page_user": page_user, "page_changed": page_changed, "first_view": page_user_created}, RequestContext(request))
 	
+@login_required
 def create(request):
 	if request.method == "POST":
 		form = forms.CreateForm(request.POST)
@@ -58,6 +60,7 @@ def create(request):
 		
 	return render_to_response("wiki/create.html", {"form": form}, RequestContext(request))
 	
+@login_required
 def edit(request, slug = ""):
 	page = get_object_or_404(models.Page, slug = slug)
 	
