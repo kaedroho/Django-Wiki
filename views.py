@@ -22,7 +22,6 @@ def view(request, slug = "", revision_str = "0"):
 	else:
 		revision = get_object_or_404(models.PageRevision, page = page, num = revision_num)
 		
-	page = get_object_or_404(models.Page, slug = slug)
 	page.add_view()
 	
 	last_view_revision = 0
