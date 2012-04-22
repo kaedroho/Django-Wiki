@@ -25,9 +25,11 @@
 				{% endif %}
 				{% if revision.num != page.current_revision.num %}
 					<a href="{{ page.get_absolute_url }}diff/?since={{ revision.num }}">[Diff]</a>
+			{% comment %}
 				{% if request.user.is_authenticated %}
 					<a href="{{ page.get_absolute_url }}revert/?to={{ revision.num }}">[Revert]</a>
 				{% endif %}
+			{% endcomment %}
 				{% endif %}
 				</td>
 			</tr>

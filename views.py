@@ -1,12 +1,14 @@
 import datetime
 import difflib
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import Http404
+from django.template.defaultfilters import slugify
 
 import models
+import forms
 
 
 def view(request, slug = "", revision_str = "0"):
@@ -37,6 +39,33 @@ def view(request, slug = "", revision_str = "0"):
 	if request.user.is_authenticated() and last_view_revision != page.current_revision.num and not page_user_created:
 		page_changed = True
 	return render_to_response("wiki/view.html", {"page": page, "revision": revision, "page_user": page_user, "page_changed": page_changed, "first_view": page_user_created}, RequestContext(request))
+	
+def create(request):
+	if request.method == "POST":
+		form = forms.CreateForm(request.POST)
+		if form.is_valid():
+			new_page = models.Page()
+			new_page.title = form.cleaned_data["title"]
+			new_page.slug = slugify(new_page.title)
+			new_page.add_revision(request.user, form.cleaned_data["content"])
+			return redirect(new_page.get_absolute_url())
+	else:
+		form = forms.CreateForm()
+		
+	return render_to_response("wiki/create.html", {"form": form}, RequestContext(request))
+	
+def edit(request, slug = ""):
+	page = get_object_or_404(models.Page, slug = slug)
+	
+	if request.method == "POST":
+		form = forms.EditForm(request.POST)
+		if form.is_valid():
+			page.add_revision(request.user, form.cleaned_data["content"])
+			return redirect(page.get_absolute_url())
+	else:
+		form = forms.EditForm({"content": page.current_revision.content})
+		
+	return render_to_response("wiki/edit.html", {"page": page, "form": form}, RequestContext(request))
 	
 def history(request, slug = ""):
 	page = get_object_or_404(models.Page, slug = slug)

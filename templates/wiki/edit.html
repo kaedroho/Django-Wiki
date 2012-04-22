@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}Editing {{ page }}{% endblock %}
+
+{% block content %}
+	<div id="sidebar">
+	</div>
+	<div id="content">
+		<h2>Editing {{ page }}</h2>
+		<form method="post">
+		{% csrf_token %}
+			<table>
+				<tr>
+					<td>Content:</td>
+					<td>
+						{{ form.content }}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="submit" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+{% endblock %}

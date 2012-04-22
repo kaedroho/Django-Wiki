@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block content %}
+	<div id="content">
+		<h2>{{ page }} Difference between revisions {{ revision_from.num }} and {{ revision_to.num }}</h2>
+		<pre>{{ diff }}</pre>
+	</div>
+{% endblock %}

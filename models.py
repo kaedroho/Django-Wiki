@@ -7,13 +7,25 @@ from django.contrib.auth.models import User
 class Page(models.Model):
 	slug = models.SlugField(max_length = 30, blank = True, db_index = True, unique = True, primary_key = True)
 	title = models.CharField(max_length = 100)
-	first_revision = models.ForeignKey("PageRevision", related_name = "+", null = True, blank = True)
 	current_revision = models.ForeignKey("PageRevision", related_name = "+", null = True, blank = True)
 	views = models.IntegerField(blank = True, default = 0)
 	next_revision_num = models.IntegerField(blank = True, default = 1)
 	
 	def add_view(self):
 		self.views += 1
+		self.save()
+		
+	def add_revision(self, user, content):
+		new_revision = PageRevision()
+		new_revision.page = self
+		new_revision.num = self.next_revision_num
+		new_revision.author = user
+		new_revision.previous_revision = self.current_revision
+		new_revision.content = content
+		new_revision.save()
+		
+		self.current_revision = new_revision
+		self.next_revision_num = self.next_revision_num + 1
 		self.save()
 		
 	def get_absolute_url(self):

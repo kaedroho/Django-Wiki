@@ -8,19 +8,9 @@ class PageAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if not obj.slug:
 			obj.slug = slugify(obj.title)
-			obj.next_revision_num = 2
 			obj.save()
 			
-			first_revision = models.PageRevision()
-			first_revision.page = obj
-			first_revision.num = 1
-			first_revision.author = request.user
-			first_revision.create_date = datetime.datetime.now()
-			first_revision.save()
-			
-			obj.first_revision = first_revision
-			obj.current_revision = first_revision
-			obj.save()
+			obj.add_revision(request.user, "Test Content")
 		else:
 			obj.save()
 			
