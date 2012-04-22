@@ -16,7 +16,7 @@
 		{% for revision in revisions.object_list %}
 			<tr>
 				<td><a href="{{ revision.get_absolute_url }}">{{ revision.num }}</a></td>
-				<td>{{ revision.create_date }}</td>
+				<td>{{ revision.create_date|date:"h:iA dS F Y" }}</td>
 				<td><a href="/users/{{ revision.author}}/">{{ revision.author.userprofile.display_name }}</a></td>
 				<td>
 					<a href="{{ revision.get_absolute_url }}">[View]</a>
