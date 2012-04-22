@@ -47,8 +47,12 @@ def create(request):
 			new_page = models.Page()
 			new_page.title = form.cleaned_data["title"]
 			new_page.slug = slugify(new_page.title)
-			new_page.add_revision(request.user, form.cleaned_data["content"])
-			return redirect(new_page.get_absolute_url())
+			try:
+				models.Page.objects.get(slug = new_page.slug)
+			except:
+				new_page.save()
+				new_page.add_revision(request.user, form.cleaned_data["content"])
+				return redirect(new_page.get_absolute_url())
 	else:
 		form = forms.CreateForm()
 		

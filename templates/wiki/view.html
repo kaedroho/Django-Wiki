@@ -5,8 +5,7 @@
 
 {% block content %}
 	<div id="sidebar">
-		<p>Created: {{ page.first_revision.create_date|date:"h:iA dS F Y" }}<br/>
-		Updated: {{ revision.create_date|date:"h:iA dS F Y" }}</p>
+		<h3><a href="/wiki/create/">Create Wiki Page</a></h3>
 		<ul>
 			<li><a href="/wiki/{{ page.slug }}/edit/">Edit Page</a></li>
 			<li><a href="/wiki/{{ page.slug }}/history/">View History</a></li>
@@ -21,5 +20,6 @@
 	<div id="content">
 		<h2>{{ page }}</h2>
 		{{ revision.content|markdown:"safe" }}
+		<p id="wiki_footer_info">Last Updated: {{ revision.create_date|date:"h:iA dS F Y" }}</p>
 	</div>
 {% endblock %}
