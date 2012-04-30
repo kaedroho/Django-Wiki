@@ -10,7 +10,7 @@ class PageAdmin(admin.ModelAdmin):
 			obj.slug = slugify(obj.title)
 			obj.save()
 			
-			obj.add_revision(request.user, "Test Content")
+			obj.add_revision(request.user, request.META["REMOTE_ADDR"], "Test Content")
 		else:
 			obj.save()
 			

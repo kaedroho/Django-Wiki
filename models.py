@@ -15,11 +15,12 @@ class Page(models.Model):
 		self.views += 1
 		self.save()
 		
-	def add_revision(self, user, content):
+	def add_revision(self, user, ip, content):
 		new_revision = PageRevision()
 		new_revision.page = self
 		new_revision.num = self.next_revision_num
 		new_revision.author = user
+		new_revision.ip = ip
 		new_revision.previous_revision = self.current_revision
 		new_revision.content = content
 		new_revision.save()
@@ -39,6 +40,7 @@ class PageRevision(models.Model):
 	num = models.IntegerField(blank = True)
 	author = models.ForeignKey(User, related_name = "pagerevision_set_created")
 	create_date = models.DateTimeField(blank = True, default = datetime.datetime.now)
+	ip = models.IPAddressField(null = True, blank = True)
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)
 	reverted = models.BooleanField(blank = True)

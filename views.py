@@ -53,7 +53,7 @@ def create(request):
 				models.Page.objects.get(slug = new_page.slug)
 			except:
 				new_page.save()
-				new_page.add_revision(request.user, form.cleaned_data["content"])
+				new_page.add_revision(request.user, request.META["REMOTE_ADDR"], form.cleaned_data["content"])
 				return redirect(new_page.get_absolute_url())
 	else:
 		form = forms.CreateForm()
@@ -67,7 +67,7 @@ def edit(request, slug = ""):
 	if request.method == "POST":
 		form = forms.EditForm(request.POST)
 		if form.is_valid():
-			page.add_revision(request.user, form.cleaned_data["content"])
+			page.add_revision(request.user, request.META["REMOTE_ADDR"], form.cleaned_data["content"])
 			return redirect(page.get_absolute_url())
 	else:
 		form = forms.EditForm({"content": page.current_revision.content})
