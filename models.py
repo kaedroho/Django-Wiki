@@ -40,7 +40,7 @@ class PageRevision(models.Model):
 	num = models.IntegerField(blank = True)
 	author = models.ForeignKey(User, related_name = "pagerevision_set_created")
 	create_date = models.DateTimeField(blank = True, default = datetime.datetime.now)
-	ip = models.IPAddressField(null = True, blank = True)
+	ip = models.IPAddressField()
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)
 	reverted = models.BooleanField(blank = True)
