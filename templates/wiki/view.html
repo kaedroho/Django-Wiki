@@ -5,26 +5,28 @@
 
 {% block content %}
 	<div id="sidebar">
-		<h3><a href="/wiki/create/">Create Wiki Page</a></h3>
-		<hr />
-		<ul>
-			<li><a href="/wiki/{{ page.slug }}/edit/">Edit Page</a></li>
-			<li><a href="/wiki/{{ page.slug }}/history/">View History</a></li>
-		</ul>
+		<div class="sidebarbox">
+			<ul class="sidemenu">
+				<h2>Wiki</h2>
+				<li><a href="/wiki/create/">Create a Wiki Page</a></li>
+				<hr />
+				<li><a href="/wiki/{{ page.slug }}/edit/">Edit Page</a></li>
+				<li><a href="/wiki/{{ page.slug }}/history/">View History</a></li>
+			</ul>
 
-	{% if page_changed or first_view %}
-		<hr />
-
-	{% if page_changed %}
-		<p>This page has changed since you last viewed it</p>
-	{% endif %}
-
-	{% if first_view %}
-		<p>This is the first time you have visited this page</p>
-	{% endif %}
-
-	{% endif %}
-
+		{% if page_changed or first_view %}
+			<hr />
+	
+		{% if page_changed %}
+			<p>This page has changed since you last viewed it</p>
+		{% endif %}
+	
+		{% if first_view %}
+			<p>This is the first time you have visited this page</p>
+		{% endif %}
+	
+		{% endif %}
+		</div>
 	</div>
 	<div id="content">
 		<h2>{{ page }}</h2>
