@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load markup %}
 
 {% block title %}{{ page }}{% endblock %}
 
@@ -30,7 +29,7 @@
 	</div>
 	<div id="content">
 		<h2>{{ page }}</h2>
-		{{ revision.content|markdown:"safe" }}
+		{{ revision.content_html|safe }}
 		<p id="wiki_footer_info">Last Updated: {{ revision.create_date|date:"h:iA dS F Y" }}</p>
 	</div>
 {% endblock %}

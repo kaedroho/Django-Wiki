@@ -1,4 +1,5 @@
 import datetime
+import postmarkup
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -23,6 +24,7 @@ class Page(models.Model):
 		new_revision.ip = ip
 		new_revision.previous_revision = self.current_revision
 		new_revision.content = content
+		new_revision.content_html = postmarkup.render_bbcode(content)
 		new_revision.save()
 		
 		self.current_revision = new_revision
@@ -43,6 +45,7 @@ class PageRevision(models.Model):
 	ip = models.IPAddressField()
 	previous_revision = models.ForeignKey("PageRevision", null = True, blank = True)
 	content = models.TextField(max_length = 100000, blank = True)
+	content_html = models.TextField(max_length = 150000, blank = True)
 	reverted = models.BooleanField(blank = True)
 	revert_reason = models.TextField(max_length = 50, blank = True)
 	revert_user = models.ForeignKey(User, null = True, blank = True, related_name = "pagerevision_set_reverted")
