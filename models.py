@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Page(models.Model):
-	slug = models.SlugField(max_length = 30, blank = True, db_index = True, unique = True, primary_key = True)
+	slug = models.SlugField(max_length = 30, blank = True, db_index = True, unique = True)
 	title = models.CharField(max_length = 100)
 	current_revision = models.ForeignKey("PageRevision", related_name = "+", null = True, blank = True)
 	views = models.IntegerField(blank = True, default = 0)

@@ -10,7 +10,8 @@ class Migration(SchemaMigration):
         
         # Adding model 'Page'
         db.create_table('wiki_page', (
-            ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=30, primary_key=True, db_index=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('slug', self.gf('django.db.models.fields.SlugField')(db_index=True, unique=True, max_length=30, blank=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('current_revision', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['wiki.PageRevision'])),
             ('views', self.gf('django.db.models.fields.IntegerField')(default=0, blank=True)),
@@ -28,6 +29,7 @@ class Migration(SchemaMigration):
             ('ip', self.gf('django.db.models.fields.IPAddressField')(max_length=15)),
             ('previous_revision', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['wiki.PageRevision'], null=True, blank=True)),
             ('content', self.gf('django.db.models.fields.TextField')(max_length=100000, blank=True)),
+            ('content_html', self.gf('django.db.models.fields.TextField')(max_length=150000, blank=True)),
             ('reverted', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('revert_reason', self.gf('django.db.models.fields.TextField')(max_length=50, blank=True)),
             ('revert_user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='pagerevision_set_reverted', null=True, to=orm['auth.User'])),
@@ -99,8 +101,9 @@ class Migration(SchemaMigration):
         'wiki.page': {
             'Meta': {'object_name': 'Page'},
             'current_revision': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['wiki.PageRevision']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'next_revision_num': ('django.db.models.fields.IntegerField', [], {'default': '1', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '30', 'primary_key': 'True', 'db_index': 'True'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'unique': 'True', 'max_length': '30', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'views': ('django.db.models.fields.IntegerField', [], {'default': '0', 'blank': 'True'})
         },
@@ -108,6 +111,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'PageRevision'},
             'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagerevision_set_created'", 'to': "orm['auth.User']"}),
             'content': ('django.db.models.fields.TextField', [], {'max_length': '100000', 'blank': 'True'}),
+            'content_html': ('django.db.models.fields.TextField', [], {'max_length': '150000', 'blank': 'True'}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15'}),
