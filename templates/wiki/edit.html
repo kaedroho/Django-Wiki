@@ -11,19 +11,9 @@
 		<form method="post">
 		{% csrf_token %}
 			<table>
-				<tr>
-					<td>Content:</td>
-					<td>
-						{{ form.content }}
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>
-						<input type="submit" />
-					</td>
-				</tr>
+				{{ form }}
 			</table>
+			<input type="submit" />
 		</form>
 	</div>
 {% endblock %}
