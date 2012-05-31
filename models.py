@@ -72,5 +72,5 @@ class PageUser(models.Model):
 		self.save()
 		
 	def __unicode__(self):
-		return self.user.userprofile.display_name + " on " + self.page.title
+		return self.user.profile.display_name + " on " + self.page.title
 		
