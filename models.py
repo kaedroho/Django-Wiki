@@ -30,6 +30,9 @@ class Page(models.Model):
 		self.next_revision_num = self.next_revision_num + 1
 		self.save()
 		
+	def search_get_whatis(self):
+		return "A wiki page"
+		
 	def get_absolute_url(self):
 		return "/wiki/" + self.slug + "/"
 		
