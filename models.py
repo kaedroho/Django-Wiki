@@ -31,7 +31,7 @@ class Page(models.Model):
 		self.save()
 		
 	def search_get_whatis(self):
-		return "A wiki page"
+		return "Wiki Page"
 		
 	def get_absolute_url(self):
 		return "/wiki/" + self.slug + "/"
